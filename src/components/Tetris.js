@@ -3,7 +3,7 @@ import { createScreen } from '../gameHelper';
 import { StyledTetris, StyledTetrisWrapper } from './styles/StyledTetris';
 
 //Components
-import Stage from './Stage';
+import Screen from './Screen';
 import Display from './Display';
 import StartButton from './StartButton';
 
@@ -12,12 +12,12 @@ const Tetris = () => {
     <div>
         <StyledTetrisWrapper>
             <StyledTetris>
-                <Stage stage={createScreen()}/>
+                <Screen screen={createScreen()}/>
                 <aside>
                     <div>
-                        <Display text="점수"/>
-                        <Display text="줄 수"/>
-                        <Display text="레벨"/>
+                        <Display text="score"/>
+                        <Display text="rows"/>
+                        <Display text="level"/>
                     </div>
                     <StartButton/>
                 </aside>
