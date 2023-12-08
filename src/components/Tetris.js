@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { createScreen } from '../gameHelper';
+
 //Styled Components
 import { StyledTetris, StyledTetrisWrapper } from './styles/StyledTetris';
 
@@ -15,12 +17,50 @@ import { useScreen } from '../hooks/useScreen';
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
-    const [player] = usePlayer();
+    const [player, updatePlayerPos, resetPlayer] = usePlayer();
     const [screen, setScreen] = useScreen(player);
-    console.log(player)
+
+    //블록 조작 함수
+    const movePlayer = dir => {
+        updatePlayerPos({ x: dir, y: 0})
+    }
+
+    //게임 시작 함수 
+    const startGame = () => {
+        //리셋
+        setScreen(createScreen());
+        resetPlayer();
+    }
+
+    const drop = () => {
+        updatePlayerPos({ x: 0, y: 1, collided: false})
+    }
+
+    //블록 내리기 함수
+    const dropPlayer = () => {
+        drop();
+    }
+
+    //키보드 조작
+    const move = ({ keyCode }) => {
+        if(!gameOver) {
+            // ← 왼쪽 방향키
+            if (keyCode === 37) {
+                movePlayer(-1);
+            // → 오른쪽 방향키
+            } else if (keyCode === 39) {
+                movePlayer(+1)
+            // ↓ 아래 방향키
+            } else if (keyCode === 40) {
+                dropPlayer();
+            }
+
+        }
+    }
+
     return (
         <div>
-            <StyledTetrisWrapper>
+            <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)}>
                 <StyledTetris>
                     <Screen screen={screen}/>
                     <aside>
@@ -33,7 +73,7 @@ const Tetris = () => {
                                 <Display text="level"/>
                             </div>
                         )}
-                        <StartButton/>
+                        <StartButton callback={startGame}/>
                     </aside>
                 </StyledTetris>
             </StyledTetrisWrapper>
