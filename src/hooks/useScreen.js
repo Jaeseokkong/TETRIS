@@ -12,13 +12,18 @@ export const useScreen = (player, resetPlayer) => {
             // 조작하는 블록 넣어줌 
             player.tetromino.forEach((row, y) => { // 모양 배열(shape) 순회 (행 값)
                 row.forEach((value, x) => { //배열 내부 2차배열 순회 (열 값)
-                    console.log(value !== 0)
                     if (value !== 0) { 
                         // 블럭 모양의 값을 좌표와 블럭 좌표를 더해서 해당 위치에 넣어줌
                         newScreen[y + player.pos.y][x + player.pos.x] = [value, `${player.collided ? 'merged' : 'clear'}`]
                     }
                 })
             })
+
+            // 충돌한 경우 (쌓여있는 블록가 만나거나, 맨 밑에 닿은 경우)
+            if (player.collided) {
+                resetPlayer();
+            }
+
             return newScreen;
         }
 

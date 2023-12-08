@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { createScreen } from '../gameHelper';
+import { createScreen, checkCollision } from '../gameHelper';
 
 //Styled Components
 import { StyledTetris, StyledTetrisWrapper } from './styles/StyledTetris';
@@ -22,7 +22,9 @@ const Tetris = () => {
 
     //블록 조작 함수
     const movePlayer = dir => {
-        updatePlayerPos({ x: dir, y: 0})
+        if(!checkCollision(player, screen, { x : dir, y: 0})){
+            updatePlayerPos({ x: dir, y: 0})
+        }
     }
 
     //게임 시작 함수 
@@ -33,7 +35,9 @@ const Tetris = () => {
     }
 
     const drop = () => {
-        updatePlayerPos({ x: 0, y: 1, collided: false})
+        if(!checkCollision(player, screen, {x : 0, y : 1})){
+            updatePlayerPos({ x: 0, y: 1, collided: false})
+        }
     }
 
     //블록 내리기 함수
