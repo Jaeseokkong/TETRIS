@@ -18,7 +18,7 @@ export const usePlayer = () => {
 
         // 각 행을 뒤집어 회전된 2차원 배열을 구한다.
         if(dir > 0) return rotatedTetro.map(row => row.reverse()); // 시계 방향
-        return rotatedTetro.revese(); // 반시계 방향
+        return rotatedTetro.reverse(); // 반시계 방향
 
     }
 
