@@ -11,11 +11,12 @@ import Display from './Display';
 import StartButton from './StartButton';
 
 //Custom Hooks
+import { useInterval } from '../hooks/useInterval'
 import { usePlayer } from '../hooks/usePlayer';
 import { useScreen } from '../hooks/useScreen';
 
 const Tetris = () => {
-    const [dropTime, setDropTime] = useState(null);
+    const [dropTime, setDropTime] = useState(1000);
     const [gameOver, setGameOver] = useState(false);
     const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
     const [screen, setScreen] = useScreen(player, resetPlayer);
@@ -75,6 +76,10 @@ const Tetris = () => {
 
         }
     }
+
+    useInterval(() => {
+        drop()
+    }, dropTime)
 
     return (
         <div>
