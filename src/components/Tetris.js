@@ -17,7 +17,7 @@ import { useScreen } from '../hooks/useScreen';
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
-    const [player, updatePlayerPos, resetPlayer] = usePlayer();
+    const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
     const [screen, setScreen] = useScreen(player, resetPlayer);
 
     //블록 조작 함수
@@ -36,7 +36,6 @@ const Tetris = () => {
     }
 
     const drop = () => {
-        console.log(player)
         if(!checkCollision(player, screen, {x : 0, y : 1})){
             updatePlayerPos({ x: 0, y: 1, collided: false})
         //충돌한 경우 (바닥 또는 쌓여있는 블록에 닿은 경우)
@@ -69,6 +68,9 @@ const Tetris = () => {
             // ↓ 아래 방향키
             } else if (keyCode === 40) {
                 dropPlayer();
+            // ↑ 위 방향키
+            } else if (keyCode === 38) {
+                playerRotate(screen, 1);
             }
 
         }

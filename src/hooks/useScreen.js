@@ -28,6 +28,7 @@ export const useScreen = (player, resetPlayer) => {
         }
 
         setScreen(prev => updateScreen(prev))
+        console.log(screen)
     }, [player]);
 
     return [screen, setScreen];
