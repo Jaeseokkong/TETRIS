@@ -43,6 +43,12 @@ const Tetris = () => {
         setLevel(0);
     }
 
+    //최하단 드롭
+    const hardDrop = () => {
+        
+    }
+
+    //한 칸 드롭
     const drop = () => {
         //10줄당 1레벨 증가
         if (rows > (level + 1) * 1) {
