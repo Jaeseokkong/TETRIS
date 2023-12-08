@@ -16,7 +16,7 @@ import { usePlayer } from '../hooks/usePlayer';
 import { useScreen } from '../hooks/useScreen';
 
 const Tetris = () => {
-    const [dropTime, setDropTime] = useState(1000);
+    const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
     const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
     const [screen, setScreen] = useScreen(player, resetPlayer);
@@ -32,6 +32,7 @@ const Tetris = () => {
     const startGame = () => {
         //리셋
         setScreen(createScreen());
+        setDropTime(1000)
         resetPlayer();
         setGameOver(false);
     }
@@ -52,8 +53,18 @@ const Tetris = () => {
         }
     }
 
+    //아래 방향키를 눌렀을때 자동으로 내려오는 시간 간격을 초기화시킴
+    const keyUp = ({ keyCode }) => {
+        if (!gameOver) {
+            if(keyCode === 40) {
+                setDropTime(1000)
+            }
+        }
+    }
+
     //블록 내리기 함수
     const dropPlayer = () => {
+        setDropTime(null);
         drop();
     }
 
@@ -83,7 +94,7 @@ const Tetris = () => {
 
     return (
         <div>
-            <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)}>
+            <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)} onKeyUp={keyUp}>
                 <StyledTetris>
                     <Screen screen={screen}/>
                     <aside>
