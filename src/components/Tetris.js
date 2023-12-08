@@ -18,7 +18,7 @@ const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
     const [player, updatePlayerPos, resetPlayer] = usePlayer();
-    const [screen, setScreen] = useScreen(player);
+    const [screen, setScreen] = useScreen(player, resetPlayer);
 
     //블록 조작 함수
     const movePlayer = dir => {
@@ -32,11 +32,23 @@ const Tetris = () => {
         //리셋
         setScreen(createScreen());
         resetPlayer();
+        setGameOver(false);
     }
 
     const drop = () => {
+        console.log(player)
         if(!checkCollision(player, screen, {x : 0, y : 1})){
             updatePlayerPos({ x: 0, y: 1, collided: false})
+        //충돌한 경우 (바닥 또는 쌓여있는 블록에 닿은 경우)
+        } else {
+            // 게임 오버된 경우 
+            if(player.pos.y < 1){
+                console.log('GAME OVER');
+                setGameOver(true);
+                setDropTime(null);
+            }
+            updatePlayerPos({ x: 0, y: 0, collided: true});
+            
         }
     }
 

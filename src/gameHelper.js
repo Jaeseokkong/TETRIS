@@ -10,7 +10,6 @@ export const checkCollision= (player, screen, { x: moveX, y: moveY}) => {
     for (let y = 0; y < player.tetromino.length; y++){
         for(let x = 0; x < player.tetromino[y].length; x++){
             // 테트리스 블록 셀이 있는지 확인
-            console.log(screen[y + player.pos.y + moveY])
             if (
                 // 스크린 공간 안에서 움직이는지 확인 
                 // 높이 안에 포함되는지

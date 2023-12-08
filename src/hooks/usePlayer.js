@@ -11,7 +11,7 @@ export const usePlayer = () => {
     });
 
     // 조작 블럭 상태 설정
-    const updatePlayerPos = ({ x, y, collided = false }) => {
+    const updatePlayerPos = ({ x, y, collided}) => {
         setPlayer(prev => ({
             ...prev,
             pos: { x: (prev.pos.x + x), y: (prev.pos.y + y)},
