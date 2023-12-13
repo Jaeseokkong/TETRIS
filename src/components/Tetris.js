@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { createScreen, checkCollision } from '../gameHelper';
 
 //Styled Components
-import { StyledTetris, StyledTetrisWrapper } from './styles/StyledTetris';
+import { StyledEmulator, StyledTetris, StyledTetrisWrapper } from './styles/StyledTetris';
 
 //Components
 import Screen from './Screen';
@@ -15,13 +15,16 @@ import { useInterval } from '../hooks/useInterval'
 import { usePlayer } from '../hooks/usePlayer';
 import { useScreen } from '../hooks/useScreen';
 import { useGameStatus } from '../hooks/useGameStatus';
+import Hold from './Hold';
+import Next from './Next';
+import { StyledDisplayWrapper } from './styles/StyledDisplay';
 
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
 
-    const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
-    const [screen, setScreen, rowsCleared] = useScreen(player, resetPlayer);
+    const [player, playerList, setPlayerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate] = usePlayer();
+    const [screen, setScreen, next, setNext, rowsCleared] = useScreen(player, playerList, setPlayerList, resetPlayer);
     const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
 
     //블록 조작 함수
@@ -36,7 +39,7 @@ const Tetris = () => {
         //리셋
         setScreen(createScreen());
         setDropTime(1000)
-        resetPlayer();
+        initPlayer();
         setGameOver(false);
         setScore(0);
         setRows(0);
@@ -116,17 +119,22 @@ const Tetris = () => {
     return (
         <div>
             <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)} onKeyUp={keyUp}>
+                <StyledEmulator/>
                 <StyledTetris>
+                    <Hold/>
                     <Screen screen={screen}/>
                     <aside>
+                        <Next next={next}/>
                         {gameOver ? (
-                            <Display gameOver={gameOver} text="Game Over"/>
+                            <StyledDisplayWrapper>
+                                <Display gameOver={gameOver} text="Game Over"/>
+                            </StyledDisplayWrapper>
                         ) : (
-                            <div>
+                            <StyledDisplayWrapper>
                                 <Display text={`Score ${score}`}/>
                                 <Display text={`Rows ${rows}`}/>
                                 <Display text={`Level ${level}`}/>
-                            </div>
+                            </StyledDisplayWrapper>
                         )}
                         <StartButton callback={startGame}/>
                     </aside>

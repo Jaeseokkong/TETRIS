@@ -1,5 +1,9 @@
 export const SCREEN_WIDTH = 12;
 export const SCREEN_HEIGHT = 20;
+export const NEXT_WIDTH = 5;
+export const NEXT_HEIGHT = 15;
+export const HOLD_WIDTH = 4;
+export const HOLD_HEIGHT = 9;
 
 //스크린 2차 배열 생성 [[[0, 'clear'], [0, 'clear'], [...] ...], []](length : 12), [...]] (length 20)
 export const createScreen = () => Array.from(Array(SCREEN_HEIGHT), () => new Array(SCREEN_WIDTH).fill([0, 'clear']));
@@ -29,4 +33,8 @@ export const checkCollision= (player, screen, { x: moveX, y: moveY}) => {
         }
     }
 }
-    
+
+
+export const createNext = () => Array.from(Array(NEXT_HEIGHT), () => new Array(NEXT_WIDTH).fill([0, 'clear']));
+export const createHold = () => Array.from(Array(HOLD_HEIGHT), () => new Array(HOLD_WIDTH).fill([0, 'clear']));
+

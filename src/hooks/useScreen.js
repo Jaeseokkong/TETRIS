@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { createScreen } from '../gameHelper'
+import { NEXT_WIDTH, createNext, createScreen } from '../gameHelper'
 
 //테트리스 화면 훅
-export const useScreen = (player, resetPlayer) => {
+export const useScreen = (player, playerList, setPlayerList, resetPlayer) => {
     const [screen, setScreen] = useState(createScreen());
+    const [next, setNext] = useState(createNext());
     const [rowsCleared, setRowsCleared] = useState(0);
     
     useEffect(() => {
@@ -37,6 +38,7 @@ export const useScreen = (player, resetPlayer) => {
             })
 
             // 충돌한 경우 (쌓여있는 블록가 만나거나, 맨 밑에 닿은 경우)
+            console.log(player.collided);
             if (player.collided) {
                 resetPlayer();
                 return sweepRows(newScreen)
@@ -46,8 +48,36 @@ export const useScreen = (player, resetPlayer) => {
         }
 
         setScreen(prev => updateScreen(prev))
-        console.log(screen)
     }, [player]);
 
-    return [screen, setScreen, rowsCleared];
+    useEffect(() => {
+
+        const initNext = next => {
+
+        }
+
+        // width : 5 height : 15
+        const updateNext = prevNext => {
+            // 조작되는 블럭 미리보기 제거
+            const newNext = Array.from(Array(15), () => new Array(NEXT_WIDTH).fill([0, 'clear']));
+
+            // 순차적으로 보여질 테트리스 블럭 순회
+            playerList.forEach((player, index) => {
+                // 리스트 내부 접근
+                player.tetromino.forEach((row, y) => {
+                    row.forEach((value, x) => {
+                        if(value !== 0) {
+                            newNext[index * 5 + y][x + 1] = [value, 'clear']
+                        }
+                    })
+                })
+            })
+
+            return newNext;
+        }
+        setNext(prev => updateNext(prev));
+
+    }, [playerList]);
+
+    return [screen, setScreen, next, setNext, rowsCleared];
 }

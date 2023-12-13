@@ -10,6 +10,24 @@ export const usePlayer = () => {
         collided: false, //충돌 속성
     });
 
+    const [playerList, setPlayerList] = useState([
+        {
+            pos: {x: 0, y: 0}, 
+            tetromino: TETROMINOS[0].shape, 
+            collided: false, 
+        },
+        {
+            pos: {x: 0, y: 0}, 
+            tetromino: TETROMINOS[0].shape, 
+            collided: false, 
+        },
+        {
+            pos: {x: 0, y: 0}, 
+            tetromino: TETROMINOS[0].shape, 
+            collided: false, 
+        },
+    ])
+
     // 조작 블록 회전
     // 90도 회전 시키는 함수
     const rotate = (matrix, dir) => {
@@ -54,14 +72,50 @@ export const usePlayer = () => {
 
     //리셋 함수
     //무한 루프를 방지하기 위해서 useCallback 훅 사용
-    const resetPlayer = useCallback(() => {
+    const resetPlayer = useCallback(() => {        
+
+        const [controlPlayer, ...restPlayers] = playerList;
+        console.log(playerList)
+        setPlayer(controlPlayer);
+
+        const newPlayerList = [...restPlayers,  {
+            pos: { x: SCREEN_WIDTH / 2 - 2, y: 0},
+            tetromino: randomTetromino().shape,
+            collided: false,
+        }]
+        setPlayerList(newPlayerList)
+    }, [])
+
+    const initPlayer = useCallback(() => {
+        console.log('initPlayer')
         setPlayer({
             pos: { x: SCREEN_WIDTH / 2 - 2, y: 0}, // x 가운데 최상단 블럭을 두기 위한 좌표
             tetromino: randomTetromino().shape,
             collided: false,
-        })
+        });
+        setPlayerList([
+            {
+                pos: { x: SCREEN_WIDTH / 2 - 2, y: 0},
+                tetromino: randomTetromino().shape,
+                collided: false,
+            },
+            {
+                pos: { x: SCREEN_WIDTH / 2 - 2, y: 0},
+                tetromino: randomTetromino().shape,
+                collided: false,
+            },
+            {
+                pos: { x: SCREEN_WIDTH / 2 - 2, y: 0},
+                tetromino: randomTetromino().shape,
+                collided: false,
+            }, 
+        ])
     }, [])
+
+    // const nextPlayer = useCallback(() => {
+    //     console.log(playerList)
+    // }, [playerList])
     
-    return [player, updatePlayerPos, resetPlayer, playerRotate]
+    return [player, playerList, setPlayerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate]
 }
 
