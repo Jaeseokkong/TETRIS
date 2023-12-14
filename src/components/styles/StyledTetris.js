@@ -18,7 +18,7 @@ export const StyledTetris = styled.div`
     margin: 0 auto;
     max-width: 900px;
     justify-content: center;
-    height: 100%;
+    /* height: 100%; */
     position: absolute;
     left: 15%;
     top: 16.5%;

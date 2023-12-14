@@ -38,7 +38,6 @@ export const useScreen = (player, playerList, setPlayerList, resetPlayer) => {
             })
 
             // 충돌한 경우 (쌓여있는 블록가 만나거나, 맨 밑에 닿은 경우)
-            console.log(player.collided);
             if (player.collided) {
                 resetPlayer();
                 return sweepRows(newScreen)
@@ -46,16 +45,11 @@ export const useScreen = (player, playerList, setPlayerList, resetPlayer) => {
 
             return newScreen;
         }
-
+        console.log(playerList)
         setScreen(prev => updateScreen(prev))
     }, [player]);
 
     useEffect(() => {
-
-        const initNext = next => {
-
-        }
-
         // width : 5 height : 15
         const updateNext = prevNext => {
             // 조작되는 블럭 미리보기 제거
@@ -67,7 +61,12 @@ export const useScreen = (player, playerList, setPlayerList, resetPlayer) => {
                 player.tetromino.forEach((row, y) => {
                     row.forEach((value, x) => {
                         if(value !== 0) {
-                            newNext[index * 5 + y][x + 1] = [value, 'clear']
+                            if (value === 'Z' || value === 'O') {
+                                newNext[index * 5 + y + 2][x + 1] = [value, 'clear']
+                            } else {
+                                newNext[index * 5 + y + 1][x + 1] = [value, 'clear']
+                            }
+                            
                         }
                     })
                 })
@@ -76,7 +75,6 @@ export const useScreen = (player, playerList, setPlayerList, resetPlayer) => {
             return newNext;
         }
         setNext(prev => updateNext(prev));
-
     }, [playerList]);
 
     return [screen, setScreen, next, setNext, rowsCleared];

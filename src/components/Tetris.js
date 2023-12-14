@@ -36,6 +36,7 @@ const Tetris = () => {
 
     //게임 시작 함수 
     const startGame = () => {
+        console.log('startGame')
         //리셋
         setScreen(createScreen());
         setDropTime(1000)

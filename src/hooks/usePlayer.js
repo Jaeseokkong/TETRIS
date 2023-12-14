@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { TETROMINOS, randomTetromino } from '../tetrominos'
 import { SCREEN_HEIGHT, SCREEN_WIDTH, checkCollision } from '../gameHelper';
 
@@ -72,22 +72,34 @@ export const usePlayer = () => {
 
     //리셋 함수
     //무한 루프를 방지하기 위해서 useCallback 훅 사용
-    const resetPlayer = useCallback(() => {        
+    // const resetPlayer = useCallback(() => {       
+    //     console.log('resetPlayer') 
+    //     console.log(playerList)
 
+    //     const [controlPlayer, ...restPlayers] = playerList;
+    //     setPlayer(controlPlayer);
+
+    //     // const newPlayerList = [...restPlayers,  {
+    //     //     pos: { x: SCREEN_WIDTH / 2 - 2, y: 0},
+    //     //     tetromino: randomTetromino().shape,
+    //     //     collided: false,
+    //     // }]
+    //     // setPlayerList(newPlayerList)
+    // }, []);
+
+    const resetPlayer = () => {
+        console.log('resetPlayer');
         const [controlPlayer, ...restPlayers] = playerList;
-        console.log(playerList)
         setPlayer(controlPlayer);
-
         const newPlayerList = [...restPlayers,  {
             pos: { x: SCREEN_WIDTH / 2 - 2, y: 0},
             tetromino: randomTetromino().shape,
             collided: false,
         }]
         setPlayerList(newPlayerList)
-    }, [])
+    }
 
-    const initPlayer = useCallback(() => {
-        console.log('initPlayer')
+    const initPlayer = () => {
         setPlayer({
             pos: { x: SCREEN_WIDTH / 2 - 2, y: 0}, // x 가운데 최상단 블럭을 두기 위한 좌표
             tetromino: randomTetromino().shape,
@@ -110,11 +122,7 @@ export const usePlayer = () => {
                 collided: false,
             }, 
         ])
-    }, [])
-
-    // const nextPlayer = useCallback(() => {
-    //     console.log(playerList)
-    // }, [playerList])
+    }
     
     return [player, playerList, setPlayerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate]
 }
