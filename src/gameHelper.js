@@ -9,7 +9,7 @@ export const HOLD_HEIGHT = 9;
 export const createScreen = () => Array.from(Array(SCREEN_HEIGHT), () => new Array(SCREEN_WIDTH).fill([0, 'clear']));
 
 //조작 블럭이 스크린을  벗어 나지못하도록 체크하는 함수
-export const checkCollision= (player, screen, { x: moveX, y: moveY}) => {
+export const checkCollision = (player, screen, { x: moveX, y: moveY}) => {
     //조작 블럭의 2차원 배열을 순회
     for (let y = 0; y < player.tetromino.length; y++){
         for(let x = 0; x < player.tetromino[y].length; x++){

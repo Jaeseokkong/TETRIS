@@ -36,7 +36,6 @@ const Tetris = () => {
 
     //게임 시작 함수 
     const startGame = () => {
-        console.log('startGame')
         //리셋
         setScreen(createScreen());
         setDropTime(1000)
@@ -47,13 +46,7 @@ const Tetris = () => {
         setLevel(0);
     }
 
-    //최하단 드롭
-    const hardDrop = () => {
-        
-    }
-
-    //한 칸 드롭
-    const drop = () => {
+    const levelUp = () => {
         //10줄당 1레벨 증가
         if (rows > (level + 1) * 1) {
             setLevel(prev => prev + 1);
@@ -61,7 +54,19 @@ const Tetris = () => {
             const FallingSpeed = Math.max(1000 - level * 50, 100)
             setDropTime(FallingSpeed);
         }
+    }
 
+    //최하단 드롭
+    const hardDrop = () => {
+        levelUp();
+        let y = 1;
+        while(checkCollision(player, screen, {x : 0, y : y}) !== true) y++;
+        updatePlayerPos({ x: 0, y: y - 1, collided: true});
+    }
+
+    //한 칸 드롭
+    const drop = () => {
+        levelUp();
         if(!checkCollision(player, screen, {x : 0, y : 1})){
             updatePlayerPos({ x: 0, y: 1, collided: false})
         //충돌한 경우 (바닥 또는 쌓여있는 블록에 닿은 경우)
@@ -108,6 +113,9 @@ const Tetris = () => {
             // ↑ 위 방향키
             } else if (keyCode === 38) {
                 playerRotate(screen, 1);
+            // 스페이스키
+            } else if (keyCode === 32) {
+                hardDrop();
             }
 
         }

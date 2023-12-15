@@ -45,7 +45,6 @@ export const useScreen = (player, playerList, setPlayerList, resetPlayer) => {
 
             return newScreen;
         }
-        console.log(playerList)
         setScreen(prev => updateScreen(prev))
     }, [player]);
 
