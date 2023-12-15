@@ -18,13 +18,19 @@ import { useGameStatus } from '../hooks/useGameStatus';
 import Hold from './Hold';
 import Next from './Next';
 import { StyledDisplayWrapper } from './styles/StyledDisplay';
+import { TETROMINOS } from '../tetrominos';
+import { useNext } from '../hooks/useNext';
+import { useHold } from '../hooks/useHold';
 
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
+    const [holdCheck, setHoldCheck] = useState(false);
 
-    const [player, playerList, setPlayerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate] = usePlayer();
-    const [screen, setScreen, next, setNext, rowsCleared] = useScreen(player, playerList, setPlayerList, resetPlayer);
+    const [player, playerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate] = usePlayer();
+    const [screen, setScreen, rowsCleared] = useScreen(player, resetPlayer);
+    const [next] = useNext(playerList);
+    const [hold, setHoldType, can, setCan] = useHold();
     const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
 
     //블록 조작 함수
@@ -98,6 +104,15 @@ const Tetris = () => {
         drop();
     }
 
+    // 블록 홀드
+    const holdPlayer = () => {
+        console.log(TETROMINOS[player.tetromino.type])
+        if(can === true){
+            setHoldType(TETROMINOS[player.tetromino.type])
+        }
+        
+    }
+
     //키보드 조작
     const move = ({ keyCode }) => {
         if(!gameOver) {
@@ -116,7 +131,10 @@ const Tetris = () => {
             // 스페이스키
             } else if (keyCode === 32) {
                 hardDrop();
-            }
+            // Shift키
+            } else if (keyCode === 16) {
+                holdPlayer();
+            } 
 
         }
     }
@@ -128,9 +146,9 @@ const Tetris = () => {
     return (
         <div>
             <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)} onKeyUp={keyUp}>
-                <StyledEmulator/>
+                {/* <StyledEmulator/> */}
                 <StyledTetris>
-                    <Hold/>
+                    <Hold hold={hold}/>
                     <Screen screen={screen}/>
                     <aside>
                         <Next next={next}/>

@@ -6,24 +6,24 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH, checkCollision } from '../gameHelper';
 export const usePlayer = () => {
     const [player, setPlayer] = useState({
         pos: {x: 0, y: 0}, //테트리스 블럭 위치
-        tetromino: TETROMINOS[0].shape, //최초 테트리스 블럭은 보이지 않도록
+        tetromino: TETROMINOS[0], //최초 테트리스 블럭은 보이지 않도록
         collided: false, //충돌 속성
     });
 
     const [playerList, setPlayerList] = useState([
         {
             pos: {x: 0, y: 0}, 
-            tetromino: TETROMINOS[0].shape, 
+            tetromino: TETROMINOS[0], 
             collided: false, 
         },
         {
             pos: {x: 0, y: 0}, 
-            tetromino: TETROMINOS[0].shape, 
+            tetromino: TETROMINOS[0], 
             collided: false, 
         },
         {
             pos: {x: 0, y: 0}, 
-            tetromino: TETROMINOS[0].shape, 
+            tetromino: TETROMINOS[0], 
             collided: false, 
         },
     ])
@@ -43,7 +43,7 @@ export const usePlayer = () => {
 
     const playerRotate = (screen, dir) => {
         const clonedPlayer = JSON.parse(JSON.stringify(player));
-        clonedPlayer.tetromino = rotate(clonedPlayer.tetromino, dir);
+        clonedPlayer.tetromino.shape = rotate(clonedPlayer.tetromino.shape, dir);
 
         const pos = clonedPlayer.pos.x;
         let offset = 1;
@@ -51,8 +51,8 @@ export const usePlayer = () => {
         while(checkCollision(clonedPlayer, screen, {x: 0, y: 0})){
             clonedPlayer.pos.x += offset;
             offset = -(offset + (offset > 0 ? 1 : -1))
-            if(offset > clonedPlayer.tetromino[0].length){
-                rotate(clonedPlayer.tetromino, -dir);
+            if(offset > clonedPlayer.tetromino.shape[0].length){
+                rotate(clonedPlayer.tetromino.shape, -dir);
                 clonedPlayer.pos.x = pos;
                 return;
             }
@@ -93,7 +93,7 @@ export const usePlayer = () => {
         setPlayer(controlPlayer);
         const newPlayerList = [...restPlayers,  {
             pos: { x: SCREEN_WIDTH / 2 - 2, y: 0},
-            tetromino: randomTetromino().shape,
+            tetromino: randomTetromino(),
             collided: false,
         }]
         setPlayerList(newPlayerList)
@@ -102,28 +102,28 @@ export const usePlayer = () => {
     const initPlayer = () => {
         setPlayer({
             pos: { x: SCREEN_WIDTH / 2 - 2, y: 0}, // x 가운데 최상단 블럭을 두기 위한 좌표
-            tetromino: randomTetromino().shape,
+            tetromino: randomTetromino(),
             collided: false,
         });
         setPlayerList([
             {
                 pos: { x: SCREEN_WIDTH / 2 - 2, y: 0},
-                tetromino: randomTetromino().shape,
+                tetromino: randomTetromino(),
                 collided: false,
             },
             {
                 pos: { x: SCREEN_WIDTH / 2 - 2, y: 0},
-                tetromino: randomTetromino().shape,
+                tetromino: randomTetromino(),
                 collided: false,
             },
             {
                 pos: { x: SCREEN_WIDTH / 2 - 2, y: 0},
-                tetromino: randomTetromino().shape,
+                tetromino: randomTetromino(),
                 collided: false,
             }, 
         ])
     }
     
-    return [player, playerList, setPlayerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate]
+    return [player, playerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate]
 }
 

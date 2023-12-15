@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { NEXT_WIDTH, createNext, createScreen } from '../gameHelper'
+import { createScreen } from '../gameHelper'
 
 //테트리스 화면 훅
-export const useScreen = (player, playerList, setPlayerList, resetPlayer) => {
+export const useScreen = (player, resetPlayer) => {
     const [screen, setScreen] = useState(createScreen());
-    const [next, setNext] = useState(createNext());
     const [rowsCleared, setRowsCleared] = useState(0);
     
     useEffect(() => {
@@ -28,7 +27,7 @@ export const useScreen = (player, playerList, setPlayerList, resetPlayer) => {
             // 해당 셀이 clear면 비우고 아니라면 셀에 블럭을 넣는다. (쌓여있는 블록(merged)을 빼고 모두 비우기)
             const newScreen = prevScreen.map(row => row.map(cell => (cell[1] === 'clear' ? [0, 'clear'] : cell)),);
             // 조작하는 블록 넣어줌 
-            player.tetromino.forEach((row, y) => { // 모양 배열(shape) 순회 (행 값)
+            player.tetromino.shape.forEach((row, y) => { // 모양 배열(shape) 순회 (행 값)
                 row.forEach((value, x) => { //배열 내부 2차배열 순회 (열 값)
                     if (value !== 0) { 
                         // 블럭 모양의 값을 좌표와 블럭 좌표를 더해서 해당 위치에 넣어줌
@@ -48,33 +47,5 @@ export const useScreen = (player, playerList, setPlayerList, resetPlayer) => {
         setScreen(prev => updateScreen(prev))
     }, [player]);
 
-    useEffect(() => {
-        // width : 5 height : 15
-        const updateNext = prevNext => {
-            // 조작되는 블럭 미리보기 제거
-            const newNext = Array.from(Array(15), () => new Array(NEXT_WIDTH).fill([0, 'clear']));
-
-            // 순차적으로 보여질 테트리스 블럭 순회
-            playerList.forEach((player, index) => {
-                // 리스트 내부 접근
-                player.tetromino.forEach((row, y) => {
-                    row.forEach((value, x) => {
-                        if(value !== 0) {
-                            if (value === 'Z' || value === 'O') {
-                                newNext[index * 5 + y + 2][x + 1] = [value, 'clear']
-                            } else {
-                                newNext[index * 5 + y + 1][x + 1] = [value, 'clear']
-                            }
-                            
-                        }
-                    })
-                })
-            })
-
-            return newNext;
-        }
-        setNext(prev => updateNext(prev));
-    }, [playerList]);
-
-    return [screen, setScreen, next, setNext, rowsCleared];
+    return [screen, setScreen, rowsCleared];
 }
