@@ -27,10 +27,10 @@ const Tetris = () => {
     const [gameOver, setGameOver] = useState(false);
     const [holdCheck, setHoldCheck] = useState(false);
 
-    const [player, playerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate] = usePlayer();
+    const [player, playerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate, holdChangePlayer] = usePlayer();
     const [screen, setScreen, rowsCleared] = useScreen(player, resetPlayer);
     const [next] = useNext(playerList);
-    const [hold, setHoldType, can, setCan] = useHold();
+    const [hold, setCan, switchHold] = useHold(player, resetPlayer, holdChangePlayer);
     const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
 
     //블록 조작 함수
@@ -67,6 +67,7 @@ const Tetris = () => {
         levelUp();
         let y = 1;
         while(checkCollision(player, screen, {x : 0, y : y}) !== true) y++;
+        setCan(true)
         updatePlayerPos({ x: 0, y: y - 1, collided: true});
     }
 
@@ -84,7 +85,7 @@ const Tetris = () => {
                 setDropTime(null);
             }
             updatePlayerPos({ x: 0, y: 0, collided: true});
-            
+            setCan(true)
         }
     }
 
@@ -106,11 +107,7 @@ const Tetris = () => {
 
     // 블록 홀드
     const holdPlayer = () => {
-        console.log(TETROMINOS[player.tetromino.type])
-        if(can === true){
-            setHoldType(TETROMINOS[player.tetromino.type])
-        }
-        
+        switchHold();    
     }
 
     //키보드 조작

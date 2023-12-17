@@ -88,7 +88,6 @@ export const usePlayer = () => {
     // }, []);
 
     const resetPlayer = () => {
-        console.log('resetPlayer');
         const [controlPlayer, ...restPlayers] = playerList;
         setPlayer(controlPlayer);
         const newPlayerList = [...restPlayers,  {
@@ -123,7 +122,15 @@ export const usePlayer = () => {
             }, 
         ])
     }
+
+    const holdChangePlayer = (tetrominoType) => {
+        setPlayer({
+            pos: {x: SCREEN_WIDTH / 2 - 2, y: 0}, 
+            tetromino: TETROMINOS[tetrominoType], 
+            collided: false, 
+        })
+    }
     
-    return [player, playerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate]
+    return [player, playerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate, holdChangePlayer]
 }
 
