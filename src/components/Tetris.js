@@ -21,6 +21,7 @@ import { StyledDisplayWrapper } from './styles/StyledDisplay';
 import { TETROMINOS } from '../tetrominos';
 import { useNext } from '../hooks/useNext';
 import { useHold } from '../hooks/useHold';
+import { StyledControllerWrapper } from './styles/StyledController';
 
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
@@ -163,6 +164,9 @@ const Tetris = () => {
                         <StartButton callback={startGame}/>
                     </aside>
                 </StyledTetris>
+                <StyledControllerWrapper>
+                    
+                </StyledControllerWrapper>
             </StyledTetrisWrapper>
         </div>
     )
