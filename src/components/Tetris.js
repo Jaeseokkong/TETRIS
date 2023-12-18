@@ -54,7 +54,7 @@ const Tetris = () => {
 
     const levelUp = () => {
         //10줄당 1레벨 증가
-        if (rows > (level + 1) * 1) {
+        if (rows > (level + 1) * 10) {
             setLevel(prev => prev + 1);
             //속도 빠르게
             const FallingSpeed = Math.max(1000 - level * 50, 100)

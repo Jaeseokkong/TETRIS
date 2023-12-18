@@ -9,8 +9,12 @@ export const StyledDisplay = styled.div`
     height : 33.3%;
     color: ${props => (props.gameOver ? 'red' : '#999')};
     background: #000;
-    font-family: Pixel, Arial, Helvetica, sans-serif;
     font-size: 0.8rem;
+
+    @media screen and (max-width: 768px){   
+        padding: 8% 5%;
+        font-size: 1.5vw;
+    }
 `
 
 export const StyledDisplayWrapper = styled.div`
@@ -22,4 +26,9 @@ export const StyledDisplayWrapper = styled.div`
     justify-content: space-between;
     border-radius: 5px;
     border: 3px solid #333;
+    box-sizing: border-box;
+
+    @media screen and (max-width: 768px){   
+        height : fit-content;
+    }
 `
