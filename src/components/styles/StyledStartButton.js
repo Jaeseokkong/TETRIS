@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledStartButton = styled.div`
     box-sizing: border-box;
-    height: 40px;
+    padding : 10%;
     width: 95%;
     border-radius: 20px;
     border: none;
@@ -15,7 +15,7 @@ export const StyledStartButton = styled.div`
     cursor: pointer;
     display: flex;
     margin-left: 2.5%;
-    transition: 0.4s ease-in-out;
+    transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
 
     &:hover {
         background: #D9D9D9;
