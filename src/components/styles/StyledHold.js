@@ -29,6 +29,11 @@ export const StyledHoldWrapper = styled.div`
     font-size : 1em;
     text-align: center;
 
+    span {
+        display: block;
+        margin-bottom: 3px;
+    }
+
     @media screen and (max-width: 768px){   
         width: 20%;
         font-size: 2vw;

@@ -5,7 +5,7 @@ import { StyledHold, StyledHoldWrapper } from './styles/StyledHold'
 const Hold = ({ hold }) => {
   return (
     <StyledHoldWrapper>
-        <div>Hold</div>
+        <span>Hold</span>
         <StyledHold width={hold[0].length} height={hold.length}>
           {hold.map(row => row.map((cell, index) => <Cell key={index} type={cell[0]}/>))}
         </StyledHold>

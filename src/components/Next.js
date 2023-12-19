@@ -5,7 +5,7 @@ import Cell from './Cell'
 const Next = ({ next }) => {
   return (
     <StyledNextWrapper>
-      <div>Next</div>
+      <span>Next</span>
       <StyledNext width={next[0].length} height={next.length}>
           {next.map(row => row.map((cell, index) => <Cell key={index} type={cell[0]}/>))}
       </StyledNext>
