@@ -14,6 +14,7 @@ export const StyledControllerWrapper = styled.div`
         width: 90%;
         margin-top: 7.5%;
     }
+
 `
 
 export const StyledDirectialPad = styled.div`
@@ -49,9 +50,9 @@ export const DirectialButton = styled.div`
         position: absolute;
         width: 0;
         height: 0;
-        border-left: 0.2rem solid transparent;
-        border-right:  0.2rem solid transparent;
-        border-bottom:  0.2rem solid white;
+        border-left: 5px solid transparent;
+        border-right:  5px solid transparent;
+        border-bottom:  5px solid white;
         top: -20%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -97,6 +98,14 @@ export const DirectialButton = styled.div`
             }
         `
     }}
+
+    @media screen and (max-width: 768px){
+        &::before {
+            border-left: 0.7vw solid transparent;
+            border-right:  0.7vw solid transparent;
+            border-bottom:  0.7vw solid white;
+        }
+    }
 
 `;
 
