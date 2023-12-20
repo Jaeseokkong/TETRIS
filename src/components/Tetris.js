@@ -21,7 +21,7 @@ import { StyledDisplayWrapper } from './styles/StyledDisplay';
 import { TETROMINOS } from '../tetrominos';
 import { useNext } from '../hooks/useNext';
 import { useHold } from '../hooks/useHold';
-import { Button, DirectialButton, RedCross, StyledABButton, StyledABPad, StyledButton, StyledControllerWrapper, StyledDirectialPad } from './styles/StyledController';
+import { Button, DirectialButton, RedCross, StyledABButton, StyledABPad, StyledButton, StyledControlButton, StyledControlPanel, StyledControllerWrapper, StyledDirectialPad } from './styles/StyledController';
 
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
@@ -51,6 +51,10 @@ const Tetris = () => {
         setScore(0);
         setRows(0);
         setLevel(0);
+    }
+
+    const pauseGame = () => {
+        
     }
 
     const levelUp = () => {
@@ -137,9 +141,6 @@ const Tetris = () => {
         }
     }
 
-    const handleButtonClick = () => {
-
-    }
 
     useInterval(() => {
         drop()
@@ -165,7 +166,7 @@ const Tetris = () => {
                                 <Display text={`Level ${level}`}/>
                             </StyledDisplayWrapper>
                         )}
-                        <StartButton callback={startGame}/>
+                        {/* <StartButton callback={startGame}/> */}
                     </aside>
                 </StyledTetris>
                 <StyledControllerWrapper>
@@ -175,9 +176,13 @@ const Tetris = () => {
                         <DirectialButton index={2} onClick={() => move({ keyCode: 40 })}/>
                         <DirectialButton index={3} onClick={() => move({ keyCode: 37 })}/>
                     </StyledDirectialPad>
+                    <StyledControlPanel>
+                        <StyledControlButton type="pause"/>
+                        <StyledControlButton type="start" onClick={() => startGame()}/>
+                    </StyledControlPanel>
                     <StyledABPad>
-                        <StyledABButton type="B" onClick={() => move({ keyCode: 32})}/>
-                        <StyledABButton type="A" onClick={() => move({ keyCode: 16})}/>
+                        <StyledABButton type="B" onClick={() => move({ keyCode: 32 })}/>
+                        <StyledABButton type="A" onClick={() => move({ keyCode: 16 })}/>
                     </StyledABPad>
                 </StyledControllerWrapper>
             </StyledTetrisWrapper>

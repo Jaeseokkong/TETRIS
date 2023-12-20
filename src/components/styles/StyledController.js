@@ -2,17 +2,23 @@ import styled from "styled-components";
 import { darken } from 'polished';
 
 export const StyledControllerWrapper = styled.div`
-    height: 15%;
-    padding: 0 10%;
+    max-width: 768px;
+    width : 100%;
+    margin: 0 auto;
+    margin-top: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: ;
+    font-family: 'Pixel';
+    @media screen and (max-width: 768px){
+        width: 90%;
+        margin-top: 7.5%;
+    }
 `
 
 export const StyledDirectialPad = styled.div`
-    width: 100px;
-    height: 100px;
+    width: 30%;
+    aspect-ratio: 1 / 1;
     position: relative;
 
     &::before {
@@ -95,8 +101,8 @@ export const DirectialButton = styled.div`
 `;
 
 export const StyledABPad = styled.div`
-   width: 100px;
-   height: 100px;
+   width: 30%;
+   aspect-ratio: 1/1;
    position: relative;
 `
 
@@ -121,13 +127,64 @@ export const StyledABButton = styled.div`
         left: 50%;
         transform: translate(-50%, -50%);
         color: #fff;
+        font-size: 2rem;
     }
 
     &:active {
         transform: translate(-50%, -50%) scale(0.95) ;
         box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3) inset;
     }
+
+    @media screen and (max-width: 768px){
+        &::before {
+            font-size: 4vw;
+        }
+    }
 `
+
+export const StyledControlPanel = styled.div`
+    position: relative;
+    width: 25%;
+    aspect-ratio: 2/1;
+    display: flex;
+`
+
+export const StyledControlButton = styled.div`
+    width: 7.5%;
+    height: 80%;
+    position: relative;
+    background-color: #8B8C8E;
+    display:block;
+    margin-right: 5px;
+    transform: rotate(40deg) translate(-50%, -50%);
+    top: 50%;
+    left: ${props => (props.type === "pause" ? "15%" : "45%")};
+    border-radius: 10px;
+    cursor: pointer;
+
+    &::before {
+        content: "${props => (props.type)}";
+        position: absolute;
+        display: block;
+        transform: rotate(-90deg) translate(-50%, -50%);
+        color: #fff;
+        top: 0%;
+        left: 60%;
+        font-size: 1rem;
+    }
+
+    &:active {
+        transform: rotate(40deg) translate(-50%, -50%) scale(0.95) ;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3) inset;
+    }
+
+    @media screen and (max-width: 768px){
+        &::before {
+            font-size: 1.9vw;
+        }
+    }
+`
+
 
 
 
