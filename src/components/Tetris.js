@@ -21,7 +21,7 @@ import { StyledDisplayWrapper } from './styles/StyledDisplay';
 import { TETROMINOS } from '../tetrominos';
 import { useNext } from '../hooks/useNext';
 import { useHold } from '../hooks/useHold';
-import { StyledControllerWrapper } from './styles/StyledController';
+import { Button, DirectialButton, RedCross, StyledABButton, StyledABPad, StyledButton, StyledControllerWrapper, StyledDirectialPad } from './styles/StyledController';
 
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
@@ -137,6 +137,10 @@ const Tetris = () => {
         }
     }
 
+    const handleButtonClick = () => {
+
+    }
+
     useInterval(() => {
         drop()
     }, dropTime)
@@ -165,7 +169,16 @@ const Tetris = () => {
                     </aside>
                 </StyledTetris>
                 <StyledControllerWrapper>
-                    
+                    <StyledDirectialPad>
+                        <DirectialButton index={0} onClick={() => move({ keyCode: 38 })}/>
+                        <DirectialButton index={1} onClick={() => move({ keyCode: 39 })}/>
+                        <DirectialButton index={2} onClick={() => move({ keyCode: 40 })}/>
+                        <DirectialButton index={3} onClick={() => move({ keyCode: 37 })}/>
+                    </StyledDirectialPad>
+                    <StyledABPad>
+                        <StyledABButton type="B" onClick={() => move({ keyCode: 32})}/>
+                        <StyledABButton type="A" onClick={() => move({ keyCode: 16})}/>
+                    </StyledABPad>
                 </StyledControllerWrapper>
             </StyledTetrisWrapper>
         </div>
