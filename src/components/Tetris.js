@@ -26,13 +26,14 @@ import { Button, DirectialButton, RedCross, StyledABButton, StyledABPad, StyledB
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
-    const [holdCheck, setHoldCheck] = useState(false);
+    const [pause, setPause] = useState(false);
 
     const [player, playerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate, holdChangePlayer] = usePlayer();
     const [screen, setScreen, rowsCleared] = useScreen(player, resetPlayer);
     const [next] = useNext(playerList);
     const [hold, setCan, switchHold] = useHold(player, resetPlayer, holdChangePlayer);
     const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
+
 
     //블록 조작 함수
     const movePlayer = dir => {
@@ -108,6 +109,10 @@ const Tetris = () => {
     const dropPlayer = () => {
         setDropTime(null);
         drop();
+        setTimeout(() => {
+            const FallingSpeed = Math.max(1000 - level * 50, 100)
+            setDropTime(FallingSpeed) 
+        }, 100)
     }
 
     // 블록 홀드
