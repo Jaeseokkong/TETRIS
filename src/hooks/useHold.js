@@ -7,18 +7,6 @@ export const useHold = (player, resetPlayer, holdChangePlayer) => {
     const [holdType, setHoldType] = useState(null);
     const [can, setCan] = useState(true);
 
-    useEffect(() => {
-        // const newHold = Array.from(Array(5), () => new Array(HOLD_WIDTH).fill([0, 'clear']))
-
-        // hold.forEach((cell, index) => {
-        //     console.log(player.tetromino)
-        // })
-
-        
-
-        
-    }, [can])
-
     const switchHold = () => {
         if(can === true){
             setCan(false)
@@ -46,5 +34,10 @@ export const useHold = (player, resetPlayer, holdChangePlayer) => {
         }
     }
 
-    return [hold, setCan, switchHold];
+    const resetHold = () => {
+        setHold(createHold());
+        setHoldType(null);
+    }
+
+    return [hold, setCan, switchHold, resetHold];
 }

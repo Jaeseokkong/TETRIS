@@ -12,6 +12,7 @@ export const StyledScreen = styled.div`
     width: 480px;
     background: #111;
     box-sizing: border-box;
+    position: relative;
 
     @media screen and (max-width: 768px){ 
         width: 60%;  
@@ -21,3 +22,22 @@ export const StyledScreen = styled.div`
         );
     }
 `;
+
+export const StyledPause = styled.div`
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    color: white;
+
+    &:before {
+        content: "PAUSED";
+        background: red;
+        padding: 10px 20px;
+        border-radius: 8px;
+    }
+`

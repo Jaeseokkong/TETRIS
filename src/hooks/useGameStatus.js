@@ -12,7 +12,7 @@ export const useGameStatus = rowsCleared => {
         //라인 지운 경우 
         if (rowsCleared > 0) {
             // 테트리스 점수 공식
-            setScore(prev => prev + linePoints[rowsCleared - 1] * (level + 1));
+            setScore(prev => (prev + linePoints[rowsCleared - 1] * (level + 1)));
             setRows(prev => prev + rowsCleared);
         }
     }, [level, linePoints, rowsCleared])

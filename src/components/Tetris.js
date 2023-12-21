@@ -27,11 +27,12 @@ const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
     const [pause, setPause] = useState(false);
+    const [start, setStart] = useState(false);
 
     const [player, playerList, updatePlayerPos, resetPlayer, initPlayer, playerRotate, holdChangePlayer] = usePlayer();
     const [screen, setScreen, rowsCleared] = useScreen(player, resetPlayer);
     const [next] = useNext(playerList);
-    const [hold, setCan, switchHold] = useHold(player, resetPlayer, holdChangePlayer);
+    const [hold, setCan, switchHold, resetHold] = useHold(player, resetPlayer, holdChangePlayer);
     const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
 
 
@@ -44,10 +45,13 @@ const Tetris = () => {
 
     //게임 시작 함수 
     const startGame = () => {
+        if(!start) setStart(true);
+        if(pause) return;
         //리셋
         setScreen(createScreen());
         setDropTime(1000)
         initPlayer();
+        resetHold();
         setGameOver(false);
         setScore(0);
         setRows(0);
@@ -55,7 +59,15 @@ const Tetris = () => {
     }
 
     const pauseGame = () => {
-        
+        if(!start || gameOver) return;
+        if(pause){
+            const FallingSpeed = Math.max(1000 - level * 50, 100)
+            setDropTime(FallingSpeed)
+        } else {
+            setDropTime(null)
+        }
+
+        setPause(prev => !prev)
     }
 
     const levelUp = () => {
@@ -97,7 +109,8 @@ const Tetris = () => {
 
     //아래 방향키를 눌렀을때 자동으로 내려오는 시간 간격을 초기화시킴
     const keyUp = ({ keyCode }) => {
-        if (!gameOver) {
+        if(!start) return;
+        if (!gameOver && !pause) {
             if(keyCode === 40) {
                 const FallingSpeed = Math.max(1000 - level * 50, 100)
                 setDropTime(FallingSpeed)
@@ -122,7 +135,8 @@ const Tetris = () => {
 
     //키보드 조작
     const move = ({ keyCode }) => {
-        if(!gameOver) {
+        if(!start) return;
+        if(!gameOver && !pause) {
             // ← 왼쪽 방향키
             if (keyCode === 37) {
                 movePlayer(-1);
@@ -157,7 +171,7 @@ const Tetris = () => {
                 {/* <StyledEmulator/> */}
                 <StyledTetris>
                     <Hold hold={hold}/>
-                    <Screen screen={screen}/>
+                    <Screen screen={screen} pause={pause}/>
                     <aside>
                         <Next next={next}/>
                         {gameOver ? (
@@ -182,7 +196,7 @@ const Tetris = () => {
                         <DirectialButton index={3} onClick={() => move({ keyCode: 37 })}/>
                     </StyledDirectialPad>
                     <StyledControlPanel>
-                        <StyledControlButton type="pause"/>
+                        <StyledControlButton type="pause" onClick={() => pauseGame()}/>
                         <StyledControlButton type="start" onClick={() => startGame()}/>
                     </StyledControlPanel>
                     <StyledABPad>
