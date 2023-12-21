@@ -37,7 +37,12 @@ export const StyledPause = styled.div`
     &:before {
         content: "PAUSED";
         background: red;
-        padding: 10px 20px;
-        border-radius: 8px;
+        padding: 5% 10%;
+        border-radius: 5px;
+
+        @media screen and (max-width: 768px){ 
+            font-size: 4vw;
+            border-radius: 3px;
+        }
     }
 `

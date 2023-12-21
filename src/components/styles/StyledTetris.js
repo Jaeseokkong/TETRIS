@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import bgImage from '../../img/background.png';
-import emulator from '../../img/emulator.png'
 
 export const StyledTetrisWrapper = styled.div`
     width: 100vw;
     height: 100vh;
-    background: url(${bgImage}) #000;
+    background: url("img/background.png") #000;
     background-size: 25%;
     overflow: hidden;
     display: flex;
@@ -43,15 +41,3 @@ export const StyledTetris = styled.div`
     }
 `
 
-export const StyledEmulator = styled.div`
-    background-image: url(${emulator});
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 60%;
-    height: 100%;
-    max-width: 1000px;
-    position: absolute;
-    z-index: 0;
-    left: 20%;
-    top: 3%;
-`

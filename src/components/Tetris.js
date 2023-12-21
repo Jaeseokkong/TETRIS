@@ -22,6 +22,7 @@ import { TETROMINOS } from '../tetrominos';
 import { useNext } from '../hooks/useNext';
 import { useHold } from '../hooks/useHold';
 import { Button, DirectialButton, RedCross, StyledABButton, StyledABPad, StyledButton, StyledControlButton, StyledControlPanel, StyledControllerWrapper, StyledDirectialPad } from './styles/StyledController';
+import { Guide } from './Guide';
 
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
@@ -45,9 +46,11 @@ const Tetris = () => {
 
     //게임 시작 함수 
     const startGame = () => {
+        console.log('startGame')
         if(!start) setStart(true);
-        if(pause) return;
+        else if(!gameOver && !pause) return;
         //리셋
+        console.log('reset')
         setScreen(createScreen());
         setDropTime(1000)
         initPlayer();
@@ -135,7 +138,15 @@ const Tetris = () => {
 
     //키보드 조작
     const move = ({ keyCode }) => {
-        if(!start) return;
+
+        if(!start) {
+            if(keyCode === 13)  startGame()
+            else return;
+        } 
+
+        // P키
+        if(keyCode === 80) pauseGame()
+
         if(!gameOver && !pause) {
             // ← 왼쪽 방향키
             if (keyCode === 37) {
@@ -154,8 +165,11 @@ const Tetris = () => {
                 hardDrop();
             // Shift키
             } else if (keyCode === 16) {
-                holdPlayer();
-            } 
+                holdPlayer();  
+            // Enter키
+            } else if (keyCode === 13) {
+                startGame()
+            }
 
         }
     }
@@ -168,7 +182,7 @@ const Tetris = () => {
     return (
         <div>
             <StyledTetrisWrapper role="button" tabIndex="0" onKeyDown={e => move(e)} onKeyUp={keyUp}>
-                {/* <StyledEmulator/> */}
+                <Guide/>
                 <StyledTetris>
                     <Hold hold={hold}/>
                     <Screen screen={screen} pause={pause}/>
@@ -196,8 +210,8 @@ const Tetris = () => {
                         <DirectialButton index={3} onClick={() => move({ keyCode: 37 })}/>
                     </StyledDirectialPad>
                     <StyledControlPanel>
-                        <StyledControlButton type="pause" onClick={() => pauseGame()}/>
-                        <StyledControlButton type="start" onClick={() => startGame()}/>
+                        <StyledControlButton type="pause" onClick={() => move({ keyCode: 80 })}/>
+                        <StyledControlButton type="start" onClick={() => move({ keyCode: 13 })}/>
                     </StyledControlPanel>
                     <StyledABPad>
                         <StyledABButton type="B" onClick={() => move({ keyCode: 32 })}/>
