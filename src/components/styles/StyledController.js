@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { darken } from 'polished';
 
 export const StyledControllerWrapper = styled.div`
     max-width: 768px;
