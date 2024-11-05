@@ -1,70 +1,84 @@
-# Getting Started with Create React App
+# Tetris Game Project (React)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 프로젝트 설명
+이 프로젝트는 React와 사용자 정의 훅을 사용하여 만든 테트리스 게임입니다. 기본적인 테트리스 게임의 기능을 지원하며, "홀드", "다음 블록 미리보기"와 같은 추가 기능과 함께 키보드 및 화면 내 가상 버튼을 사용해 플레이할 수 있습니다. 
 
-## Available Scripts
+## 데모
+![Game Demo](demo.gif)
 
-In the project directory, you can run:
+## 설치 및 시작
 
-### `npm start`
+### 요구 사항
+- Node.js (>=14.0.0)
+- npm 또는 yarn
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 설치
+프로젝트를 로컬 환경에 클론한 후, 다음 명령어를 실행하여 필요한 패키지를 설치합니다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+git clone [YOUR REPO LINK]
+cd [PROJECT DIRECTORY]
+npm install
+```
 
-### `npm test`
+### 실행
+npm start
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 주요 기능
+블록 이동, 회전, 하드 드롭: 왼쪽, 오른쪽 이동, 회전, 하드 드롭이 가능합니다.
+레벨 및 속도 증가: 10줄 클리어마다 레벨이 상승하고 속도가 증가합니다.
+홀드 기능: 현재 블록을 홀드하고 필요할 때 불러올 수 있습니다.
+다음 블록 미리보기: 다음 블록을 화면에 표시하여 전략적인 플레이를 가능하게 합니다.
+일시 정지 및 게임 재시작: P 키로 게임을 일시 정지하고 다시 시작할 수 있습니다.
 
-### `npm run build`
+## 파일 구조
+src/components: UI 구성 요소 및 Styled Components를 포함합니다.
+src/hooks: 테트리스 로직을 캡슐화한 사용자 정의 훅을 포함합니다.
+src/tetrominos: 테트로미노 블록 데이터와 관련된 파일입니다.
+src/gameHelper.js: 블록 충돌 감지와 같은 게임 로직 관련 헬퍼 함수가 포함되어 있습니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 주요 컴포넌트 및 훅 설명
+### ```Tetris.js``` (Main Game Component)
+이 컴포넌트는 전체 게임 로직과 UI를 관리합니다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### 상태 관리
+게임의 상태 (```dropTime```, ```gameOver`, `pause`, `start`)를 관리합니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### 핵심 메서드
+- movePlayer(dir): 블록을 좌우로 이동합니다.
+- startGame(): 게임을 초기화하고 시작합니다.
+- pauseGame(): 게임을 일시 정지합니다.
+- dropPlayer(): 블록을 아래로 한 칸 떨어뜨립니다.
+- hardDrop(): 블록을 충돌할 때까지 하드 드롭합니다.
+- holdPlayer(): 현재 블록을 홀드합니다.
 
-### `npm run eject`
+#### 주요 커스텀 훅
+- usePlayer: 플레이어(블록)의 위치 및 회전을 관리합니다.
+- useScreen: 게임 화면과 블록 충돌을 관리합니다.
+- useGameStatus: 점수, 라인 클리어, 레벨 상승을 추적합니다.
+- useNext: 다음 블록을 관리합니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 컨트롤
+### 키보드
+- 방향키 (←, →): 블록 좌우 이동
+- 방향키 (↑): 블록 회전
+- 방향키 (↓): 블록 한 칸 아래로 이동
+- 스페이스바: 하드 드롭
+- Shift: 블록 홀드
+- Enter: 게임 시작
+- P: 게임 일시 정지
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 가상 버튼 (모바일/화면 내 컨트롤러)
+- Directional Pad: 화면 내에서 블록을 좌우 또는 한칸 아래로 이동하거나 블록 회전 가능
+- Control Panel: 일시 정지 및 게임 시작/재시작 버튼
+- A/B 버튼: 홀드와 하드 드롭을 실행
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 게임 로직
+### 충돌 감지
+- `checkCollision()`: 블록이 벽, 바닥 또는 다른 블록과 충돌하는지 확인합니다.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 점수 계산
+- 클리어한 줄 수에 따라 점수를 계산하고 레벨 상승 조건을 만족하면 속도를 증가시킵니다.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 블록 생성
+- `TETROMINOS` 배열에서 무작위 블록을 생성합니다. `createScreen`을 통해 게임 보드를 초기화합니다.
